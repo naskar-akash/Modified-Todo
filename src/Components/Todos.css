@@ -1,0 +1,15 @@
+.main-logo{
+    color: rgb(23, 23, 136);
+    font-weight: bold;
+    font-size: 2.5rem;
+    display: flex;
+    justify-content: center;
+}
+.add-todo h2{
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+.right h2{
+    font-size: 20px;
+}

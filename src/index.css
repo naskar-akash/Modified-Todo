@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-color: rgb(231, 225, 225);
+}
+
+nav{
+    background-color: rgb(67, 62, 62);
+    color: white;
+    margin-bottom: 6px;
+}
+.nav-hover{
+    display: flex;
+    gap: 20px;
+}
+a li{
+    list-style: none;
+    color: aliceblue;
+    padding: 15px;
+}
+.red{
+    background-color: rgb(198, 44, 44);
+}
+.logo span{
+    padding: 10px;
+}
