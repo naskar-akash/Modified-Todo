@@ -7,9 +7,9 @@ const Showtodos = () => {
  const [todos, setTodos] = useState([]);
  const [dateFilter, setDateFilter] = useState("")
  const [filteredTodos, setFilteredTodos] = useState([])
- const [isfiltered, setIsfiltered] = useState(false)
  const [search, setSearch] = useState("")
  const [searchedTodos, setSearchedTodos] = useState([])
+ 
 
   const navigate = useNavigate();
 
@@ -41,7 +41,6 @@ const Showtodos = () => {
       return date == formattedDate;
     })
     setFilteredTodos(newTodos)
-    setIsfiltered(true)
   }
 
 
@@ -60,8 +59,13 @@ const Showtodos = () => {
      return i.todo.toLowerCase().includes(text.toLowerCase())
     })
     setSearchedTodos(newTodos)
-    setIsfiltered(true)
-    console.log(newTodos)
+  }
+
+  const handleClear = () =>{
+    setFilteredTodos([])
+    setSearchedTodos([])
+    setDateFilter("")
+    setSearch("")
   }
 
   const toDisplayFinalTodos = () =>{
@@ -79,6 +83,7 @@ const Showtodos = () => {
     const storedTodos = localStorage.getItem("todos");
     if (storedTodos) {
       setTodos(JSON.parse(storedTodos));
+      setFilteredTodos(JSON.parse(storedTodos))
     }
   }, []);
 
@@ -101,6 +106,9 @@ const Showtodos = () => {
           <button onClick={searchBtn} className="bg-blue-600 px-1 mx-2 text-white rounded hover:bg-blue-700 transition-all hover:font-bold">
             Search
           </button>
+        </div>
+        <div className="flex">
+          <button onClick={handleClear} className="bg-red-500 text-gray-100 rounded px-1 mx-2 hover:bg-red-400 transition-all hover:text-white">Clear Filters</button>
         </div>
       </div>
 

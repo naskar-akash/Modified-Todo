@@ -1,7 +1,7 @@
 .homepage-container {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
-  padding: 1rem;
+  padding: 5px;
   background-color: #f9f9f9;
   min-height: 100vh;
 }
@@ -43,4 +43,13 @@
 .features-list li {
   margin: 1rem 0;
   font-size: 1.2rem;
+}
+.footer{
+  height: 10vh;
+  width: 100%;
+  background-color: #313232;
+  color: #c5c2c2;
+  position: absolute;
+  bottom: 0;
+  padding-top: 20px;
 }

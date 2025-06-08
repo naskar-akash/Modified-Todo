@@ -26,6 +26,9 @@ const Home = () => {
           <li>📊 Progress tracking</li>
         </ul>
       </section>
+      <footer className='footer'>
+        <p>copyright@2025</p>
+      </footer>
     </div>
   )
 }
