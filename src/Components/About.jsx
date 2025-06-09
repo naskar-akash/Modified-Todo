@@ -1,11 +1,42 @@
-import React from 'react'
+import React from "react";
 
 const About = () => {
   return (
-    <div>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis, ex animi rem odit doloremque in repellat a libero voluptatum delectus minima pariatur ab vitae ea eos minus ipsam optio? Impedit vitae a, sint adipisci molestias neque corporis consectetur in, dolores dicta libero numquam labore exercitationem, earum alias blanditiis veritatis magnam. Delectus aperiam, quos ex porro ad beatae quis iure reprehenderit provident accusamus dolor, eveniet, necessitatibus magni doloribus amet? Omnis, eos quas temporibus perferendis soluta excepturi ducimus quasi odio cumque odit illum, blanditiis debitis ex repellat. Natus pariatur eius, dolor necessitatibus accusamus facere esse. Soluta, vel ullam optio sint corrupti voluptatum.
-    </div>
-  )
-}
+    <div className="px-4">
+      <h1 className="text-3xl font-bold mb-4 text-center text-indigo-600">About This App</h1>
 
-export default About
+      <p className="text-gray-700 text-lg mb-4">
+        @TODO is a simple and efficient way to manage your daily tasks. Whether you're planning your day,
+        organizing your work this app helps you stay productive and organized.
+      </p>
+
+      <h2 className="text-xl font-semibold text-gray-800 mb-2">Features</h2>
+      <ul className="list-disc pl-6 text-gray-700 mb-4">
+        <li>Add, edit, and delete todos</li>
+        <li>Filter tasks by date and keyword</li>
+        <li>Persistent data using localStorage or API</li>
+      </ul>
+
+      <h2 className="text-xl font-semibold text-gray-800 mb-2">Tech Stack</h2>
+      <ul className="list-disc pl-6 text-gray-700 mb-4">
+        <li>React JS</li>
+        <li>React Router</li>
+        <li>Tailwind CSS</li>
+      </ul>
+
+      <p className="text-gray-700">
+        Built by Akash. You can find the source code and updates on my{"GitHub Account "}
+        <a
+          href="https://github.com/naskar-akash"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-indigo-500 underline"
+        >
+          github.com/naskar-akash
+        </a>.
+      </p>
+    </div>
+  );
+};
+
+export default About;
