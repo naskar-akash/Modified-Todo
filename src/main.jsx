@@ -6,7 +6,7 @@ import App from './App.jsx'
 import Home from './Components/Home.jsx'
 import Todos from './Components/Todos.jsx'
 import About from './Components/About.jsx'
-import Showtodos from './Components/Showtodos.jsx'
+
 
 const router = createBrowserRouter([
   {
@@ -25,10 +25,6 @@ const router = createBrowserRouter([
         path:"/About",
         element:<About/>
       },
-      {
-        path:"/Todos/Showtodos",
-        element:<Showtodos/>
-      }
     ],
   },
 ]);
