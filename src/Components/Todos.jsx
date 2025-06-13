@@ -7,7 +7,6 @@ const Todos = () => {
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const [filteredTodos, setFilteredTodos] = useState([]);
 
   const handleAdd = () => {
     const newTodo = { id: uuidv4(), todo, status: "" };
@@ -22,18 +21,16 @@ const Todos = () => {
     setTodos(newTodos);
   };
 
-  const handleSeach = () => {
-    let newTodos = todos.filter((i) => {
+  const filteredTodos = todos.filter((i) => {
       return i.todo.toLowerCase().includes(searchText.toLowerCase());
     });
-    setFilteredTodos(newTodos);
-  };
+  
 
   const displayTodos = searchText ? filteredTodos : todos;
 
   return (
     <div>
-      <div className="flex justify-between">
+      <div className="flex justify-between bg-gray-500">
         <div className="flex gap-1 mx-2">
           <input
             onChange={(e) => {
@@ -52,15 +49,14 @@ const Todos = () => {
         </div>
         <div className="flex">
           <input
-            onChange={(e) => {
-              setSearchText(e.target.value);
-            }}
+            onChange={(e) => {setSearchText(e.target.value)}}
             className="bg-gray-300 w-full p-2 m-1 border-none"
             type="text"
+            placeholder="Search here....."
             value={searchText}
           />
           <button
-            onClick={handleSeach}
+            // onClick={No work}
             className="bg-gray-800 text-white p-2 m-1"
           >
             Search
