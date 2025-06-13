@@ -8,6 +8,21 @@ const Todos = () => {
   const [todos, setTodos] = useState([]);
   const [searchText, setSearchText] = useState("");
 
+  useEffect(() => {
+    let todoString = localStorage.getItem("todos")
+    if (todoString) {
+      setTodos(JSON.parse(todoString))
+    }
+  }, [])
+  
+
+  useEffect(() => {
+    if(todos.length > 0){
+    localStorage.setItem("todos",JSON.stringify(todos))
+    }
+  }, [todos])
+  
+
   const handleAdd = () => {
     const newTodo = { id: uuidv4(), todo, status: "" };
     setTodos([...todos, newTodo]);
@@ -55,12 +70,6 @@ const Todos = () => {
             placeholder="Search here....."
             value={searchText}
           />
-          <button
-            // onClick={No work}
-            className="bg-gray-800 text-white p-2 m-1"
-          >
-            Search
-          </button>
         </div>
       </div>
       <div>
