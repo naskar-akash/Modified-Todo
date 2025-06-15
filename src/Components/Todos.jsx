@@ -4,7 +4,7 @@ import { data } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 const Todos = () => {
-  const [todoTitle, setTodoTitle] = useState("")
+  const [todoTitle, setTodoTitle] = useState("");
   const [todoDesc, setTodoDesc] = useState("");
   const [todos, setTodos] = useState([]);
   const [searchText, setSearchText] = useState("");
@@ -23,7 +23,12 @@ const Todos = () => {
   }, [todos]);
 
   const handleAdd = () => {
-    const newTodo = { id: uuidv4(), title: todoTitle, desc: todoDesc, status: "" };
+    const newTodo = {
+      id: uuidv4(),
+      title: todoTitle,
+      desc: todoDesc,
+      status: "",
+    };
     setTodos([...todos, newTodo]);
     setTodoTitle("");
     setTodoDesc("");
@@ -35,6 +40,21 @@ const Todos = () => {
     });
     setTodos(newTodos);
   };
+
+  const handleClearAll = () => {
+    const confirmed = window.confirm("Do you want to delete all todos?");
+    if (confirmed) {
+      localStorage.removeItem("todos");
+      setTodos([]);
+    }
+  };
+
+  const handleRemove = (e,id) => {
+    let newTodos = todos.filter((i) =>{
+    return  i.id != id
+    })
+    setTodos(newTodos)
+  }
 
   const filteredTodos = todos.filter((i) => {
     return (i.desc ?? "").toLowerCase().includes(searchText.toLowerCase());
@@ -50,7 +70,7 @@ const Todos = () => {
             onChange={(e) => {
               setTodoTitle(e.target.value);
             }}
-            className="bg-gray-300 w-full p-2 m-1 border-none"
+            className="bg-gray-300 w-full rounded-lg p-2 m-1 border-none"
             type="text"
             placeholder="Add title..."
             value={todoTitle}
@@ -59,26 +79,34 @@ const Todos = () => {
             onChange={(e) => {
               setTodoDesc(e.target.value);
             }}
-            className="bg-gray-300 w-full p-2 m-1 border-none"
+            className="bg-gray-300 w-full rounded-lg p-2 m-1 border-none"
             type="text"
             placeholder="Add description..."
             value={todoDesc}
           />
           <button
             onClick={handleAdd}
-            className="bg-gray-800 text-white p-2 m-1"
+            className="bg-gray-800 rounded text-white p-2 m-1"
           >
             Add
           </button>
         </div>
 
+        <div className="flex">
+          <button
+            onClick={handleClearAll}
+            className="bg-gray-800 rounded text-white p-2 m-1"
+          >
+            Clear all
+          </button>
+        </div>
 
         <div className="flex">
           <input
             onChange={(e) => {
               setSearchText(e.target.value);
             }}
-            className="bg-gray-300 w-full p-2 m-1 border-none"
+            className="bg-gray-300 rounded-lg w-full p-2 m-1 mr-2 border-none"
             type="text"
             placeholder="Search here....."
             value={searchText}
@@ -89,7 +117,9 @@ const Todos = () => {
         <h1 className="text-2xl font-bold">My Todos</h1>
         <div className="flex flex-wrap justify-center">
           {displayTodos.length === 0 ? (
-            <div className="flex justify-center">No Todos to Display</div>
+            <div className="flex justify-center text-2xl">
+              No Todos to Display
+            </div>
           ) : (
             displayTodos.map((i) => {
               return (
@@ -107,44 +137,48 @@ const Todos = () => {
                       : "bg-gray-300 hover:bg-gray-200"
                   } rounded-lg shadow-lg w-[280px] min-h-[200px] transition-all hover:shadow-md`}
                 >
-                  <div></div>
                   <div className="flex flex-col">
-                    <h3>{i.title}</h3>
-                    <p>{i.desc}</p>
-                  </div>
-                  <div>
-                    <input
-                      onChange={(e) => handleStatus(e, i.id)}
-                      type="radio"
-                      checked={i.status === "Open"}
-                      name={`status-${i.id}`}
-                      value="Open"
-                    />{" "}
-                    Open
-                    <input
-                      onChange={(e) => handleStatus(e, i.id)}
-                      type="radio"
-                      checked={i.status === "Ongoing"}
-                      name={`status-${i.id}`}
-                      value="Ongoing"
-                    />{" "}
-                    Ongoing
-                    <input
-                      onChange={(e) => handleStatus(e, i.id)}
-                      type="radio"
-                      checked={i.status === "Done"}
-                      name={`status-${i.id}`}
-                      value="Done"
-                    />{" "}
-                    Done
-                    <input
-                      onChange={(e) => handleStatus(e, i.id)}
-                      type="radio"
-                      checked={i.status === "Undo"}
-                      name={`status-${i.id}`}
-                      value="Undo"
-                    />{" "}
-                    Undo
+                    <div className="flex flex-col justify-center">
+                      <h3 className="flex justify-center">{i.title}</h3>
+                      <p className="flex justify-start">{i.desc}</p>
+                    </div>
+                    <div className="flex">
+                      <button onClick={(e)=>{handleRemove(e,i.id)}} className="bg-gray-800 rounded text-white p-2 m-1">Remove</button>
+                    </div>
+                    <div>
+                      <input
+                        onChange={(e) => handleStatus(e, i.id)}
+                        type="radio"
+                        checked={i.status === "Open"}
+                        name={`status-${i.id}`}
+                        value="Open"
+                      />{" "}
+                      Open
+                      <input
+                        onChange={(e) => handleStatus(e, i.id)}
+                        type="radio"
+                        checked={i.status === "Ongoing"}
+                        name={`status-${i.id}`}
+                        value="Ongoing"
+                      />{" "}
+                      Ongoing
+                      <input
+                        onChange={(e) => handleStatus(e, i.id)}
+                        type="radio"
+                        checked={i.status === "Done"}
+                        name={`status-${i.id}`}
+                        value="Done"
+                      />{" "}
+                      Done
+                      <input
+                        onChange={(e) => handleStatus(e, i.id)}
+                        type="radio"
+                        checked={i.status === "Undo"}
+                        name={`status-${i.id}`}
+                        value="Undo"
+                      />{" "}
+                      Undo
+                    </div>
                   </div>
                 </div>
               );
