@@ -8,6 +8,7 @@ const Todos = () => {
   const [todoDesc, setTodoDesc] = useState("");
   const [todos, setTodos] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [showForm, setShowForm] = useState(false)
 
   useEffect(() => {
     let todoString = localStorage.getItem("todos");
@@ -32,6 +33,7 @@ const Todos = () => {
     setTodos([...todos, newTodo]);
     setTodoTitle("");
     setTodoDesc("");
+    setShowForm(false)
   };
 
   const handleStatus = (e, id) => {
@@ -65,32 +67,6 @@ const Todos = () => {
   return (
     <div>
       <div className="flex justify-between bg-gray-500">
-        <div className="flex gap-1 mx-2">
-          <input
-            onChange={(e) => {
-              setTodoTitle(e.target.value);
-            }}
-            className="bg-gray-300 w-full rounded-lg p-2 m-1 border-none"
-            type="text"
-            placeholder="Add title..."
-            value={todoTitle}
-          />
-          <input
-            onChange={(e) => {
-              setTodoDesc(e.target.value);
-            }}
-            className="bg-gray-300 w-full rounded-lg p-2 m-1 border-none"
-            type="text"
-            placeholder="Add description..."
-            value={todoDesc}
-          />
-          <button
-            onClick={handleAdd}
-            className="bg-gray-800 rounded text-white p-2 m-1"
-          >
-            Add
-          </button>
-        </div>
 
         <div className="flex">
           <button
@@ -186,6 +162,36 @@ const Todos = () => {
           )}
         </div>
       </div>
+      <button onClick={() => setShowForm(!showForm)} className="bg-gray-800 rounded text-white p-2 m-1">+Add</button>
+
+      {showForm && (
+      <form action="" className="flex flex-col gap-3 mt-4 p-4 border rounded shadow max-w-md">
+        <input
+            onChange={(e) => {
+              setTodoTitle(e.target.value);
+            }}
+            className="bg-gray-300 w-full rounded-lg p-2 m-1 border-none"
+            type="text"
+            placeholder="Add title..."
+            value={todoTitle}
+          />
+          <textarea
+            onChange={(e) => {
+              setTodoDesc(e.target.value);
+            }}
+            className="bg-gray-300 w-full rounded-lg p-2 m-1 border-none"
+            type="text"
+            placeholder="Add description..."
+            value={todoDesc}
+          />
+          <button
+            onClick={handleAdd}
+            className="bg-gray-800 rounded text-white p-2 m-1"
+          >
+            Add
+          </button>
+      </form>
+      )}
     </div>
   );
 };
