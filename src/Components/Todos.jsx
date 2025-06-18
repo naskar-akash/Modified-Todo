@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from "uuid";
 import { IoIosAddCircle } from "react-icons/io";
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteOutline } from "react-icons/md";
+import EditTodos from "./EditTodos";
+
 
 const Todos = () => {
   const [todoTitle, setTodoTitle] = useState("");
@@ -12,6 +14,8 @@ const Todos = () => {
   const [todos, setTodos] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const [open, setOpen] = useState(false);
+  
 
   useEffect(() => {
     let todoString = localStorage.getItem("todos");
@@ -61,9 +65,13 @@ const Todos = () => {
     setTodos(newTodos);
   };
 
-  const handleEdit = (e,id) => {
-    console.log(id)
-  }
+  const handleEdit = (e, id) => {
+    const newTodos = todos.filter((i) => {
+    return i.id === id;
+    });
+    console.log(newTodos)
+    setOpen(true);
+  };
 
   const filteredTodos = todos.filter((i) => {
     return (i.desc ?? "").toLowerCase().includes(searchText.toLowerCase());
@@ -104,10 +112,11 @@ const Todos = () => {
             </button>
 
             {showForm && (
-              <form onSubmit={(e)=>{
-                e.preventDefault();
-                handleAdd();
-              }}
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleAdd();
+                }}
                 className="w-full max-w-3xl flex gap-1 m-1 p-1 border rounded shadow"
               >
                 <input
@@ -162,28 +171,28 @@ const Todos = () => {
                   } rounded-lg shadow-lg w-[280px] min-h-[200px] transition-all hover:shadow-md`}
                 >
                   <div className="flex flex-col justify-between">
-                    <div className="flex flex-col">
-                    <div className="flex flex-col justify-center">
-                      <h3 className="flex justify-center">{i.title}</h3>
-                      <p className="flex justify-start">{i.desc}</p>
-                    </div>
-                    <div className="flex justify-end gap-2">
-                      <button
-                        onClick={(e) => {
-                          handleRemove(e, i.id);
-                        }}
-                      >
-                        <MdDeleteOutline />
-                      </button>
+                    <div className="flex flex-col gap-10">
+                      <div className="flex flex-col justify-center">
+                        <h3 className="flex justify-center">{i.title}</h3>
+                        <p className="flex justify-start">{i.desc}</p>
+                      </div>
+                      <div className="flex justify-end gap-3">
+                        <button
+                          onClick={(e) => {
+                            handleRemove(e, i.id);
+                          }}
+                        >
+                          <MdDeleteOutline className="size-6" />
+                        </button>
 
-                      <button
-                        onClick={(e) => {
-                          handleEdit(e, i.id);
-                        }}
-                      >
-                        <CiEdit />
-                      </button>
-                    </div>
+                        <button
+                          onClick={(e) => {
+                            handleEdit(e, i.id);
+                          }}
+                        >
+                          <CiEdit className="size-6" />
+                        </button>
+                      </div>
                     </div>
                     <div>
                       <input
@@ -226,6 +235,7 @@ const Todos = () => {
           )}
         </div>
       </div>
+      <EditTodos open={open} setOpen={setOpen} todoTitle={todoTitle} todoDesc={todoDesc}/>
     </div>
   );
 };
