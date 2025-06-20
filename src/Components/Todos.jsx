@@ -5,6 +5,7 @@ import { IoIosAddCircle } from "react-icons/io";
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteOutline } from "react-icons/md";
 import EditTodos from "./EditTodos";
+import ToFilterTodos from "./ToFilterTodos";
 
 const Todos = () => {
   const [todoTitle, setTodoTitle] = useState("");
@@ -14,6 +15,8 @@ const Todos = () => {
   const [showForm, setShowForm] = useState(false);
   const [open, setOpen] = useState(false)
   const [editingTodo, setEditingTodo] = useState("")
+  const [dateFilter, setDateFilter] = useState("");
+  const [dateFilteredTodos, setDateFilteredTodos] = useState([])
 
   useEffect(() => {
     let todoString = localStorage.getItem("todos");
@@ -28,11 +31,27 @@ const Todos = () => {
     }
   }, [todos]);
 
+  const dateTime = (isoString) => {
+    const date = new Date(isoString)
+    let day = String(date.getDay()+15).padStart(2,"0")
+    let month = String(date.getMonth()+1).padStart(2,"0")
+    let year = String(date.getFullYear())
+    let hour = String(date.getHours()).padStart(2,"0")
+    let minute = String(date.getMinutes()).padStart(2,"0")
+    let second = String(date.getSeconds()).padStart(2,"0")
+
+    return{
+      date:`${day}-${month}-${year}`,
+      time:`${hour}-${minute}-${second}`
+    }
+  }
+
   const handleAdd = () => {
     const newTodo = {
       id: uuidv4(),
       title: todoTitle,
       desc: todoDesc,
+      modifiedAt: new Date().toISOString(),
       status: "",
     };
     setTodos([...todos, newTodo]);
@@ -48,13 +67,7 @@ const Todos = () => {
     setTodos(newTodos);
   };
 
-  const handleClearAll = () => {
-    const confirmed = window.confirm("Do you want to delete all todos?");
-    if (confirmed) {
-      localStorage.removeItem("todos");
-      setTodos([]);
-    }
-  };
+  
 
   const handleRemove = (e, id) => {
     let newTodos = todos.filter((i) => {
@@ -88,32 +101,22 @@ const Todos = () => {
     return (i.desc ?? "").toLowerCase().includes(searchText.toLowerCase());
   });
 
-  const displayTodos = searchText ? filteredTodos : todos;
+  const displayTodos = searchText ? filteredTodos : dateFilter ? dateFilteredTodos : todos;
+
 
   return (
     <div>
-      <div className="flex justify-between bg-gray-500">
-        <div className="flex">
-          <button
-            onClick={handleClearAll}
-            className="bg-gray-800 rounded text-white p-2 m-1"
-          >
-            Clear all
-          </button>
-        </div>
 
-        <div className="flex">
-          <input
-            onChange={(e) => {
-              setSearchText(e.target.value);
-            }}
-            className="bg-gray-300 rounded-lg w-full p-2 m-1 mr-2 border-none"
-            type="text"
-            placeholder="Search here....."
-            value={searchText}
-          />
-        </div>
-      </div>
+      <ToFilterTodos 
+      todos={todos}
+      setTodos={setTodos}
+      dateTime={dateTime}
+      searchText={searchText}
+      setSearchText={setSearchText}
+      dateFilter={dateFilter}
+      setDateFilter={setDateFilter}
+      setDateFilteredTodos={setDateFilteredTodos}/>
+
       <div className="p-2">
         <div className="flex gap-[100vh]">
           <h1 className="text-2xl font-bold">My Todos</h1>
@@ -166,6 +169,7 @@ const Todos = () => {
             </div>
           ) : (
             displayTodos.map((i) => {
+              let {date, time} = dateTime(i.modifiedAt)
               return (
                 <div
                   key={i.id}
@@ -187,7 +191,12 @@ const Todos = () => {
                         <h3 className="flex justify-center">{i.title}</h3>
                         <p className="flex justify-start">{i.desc}</p>
                       </div>
-                      <div className="flex justify-end gap-3">
+                      <div className="flex justify-between">
+                        <div className="flex justify-start gap-3">
+                          <p className="font-semibold">{date}</p>
+                          <p className="font-semibold">{time}</p>
+                        </div>
+                        <div className="flex justify-end gap-2 pb-3">
                         <button
                           onClick={(e) => {
                             handleRemove(e, i.id);
@@ -203,6 +212,7 @@ const Todos = () => {
                         >
                           <CiEdit className="size-6" />
                         </button>
+                        </div>
                       </div>
                     </div>
                     <div>
