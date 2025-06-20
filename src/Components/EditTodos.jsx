@@ -1,13 +1,14 @@
 import React from 'react'
-import {
-  Dialog,
-  DialogBackdrop,
-  DialogPanel,
-  DialogTitle,
-} from "@headlessui/react";
+import { Dialog,DialogBackdrop,DialogPanel,DialogTitle } from '@headlessui/react'
 
-const EditTodos = ({open,setOpen,todoTitle,todoDesc}) => {
 
+const EditTodos = ({open,setOpen,editingTodo,todoTitle,setTodoTitle,todoDesc,setTodoDesc,onSave}) => {
+
+  const handleSave = (e) => {
+    e.preventDefault()
+    onSave({...editingTodo, title:todoTitle, desc:todoDesc})
+    setOpen(false);
+  }
 
   return (
     <div>
@@ -23,12 +24,7 @@ const EditTodos = ({open,setOpen,todoTitle,todoDesc}) => {
               transition
               className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95"
             >
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleSave();
-                }}
-              >
+              <form onSubmit={handleSave}>
                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                   <DialogTitle
                     as="h3"
@@ -38,6 +34,7 @@ const EditTodos = ({open,setOpen,todoTitle,todoDesc}) => {
                   </DialogTitle>
                   <div className="flex mb-4">
                     <input
+                    autoFocus
                       onChange={(e) => {
                         setTodoTitle(e.target.value);
                       }}
@@ -62,7 +59,7 @@ const EditTodos = ({open,setOpen,todoTitle,todoDesc}) => {
                       type="submit"
                       className="bg-blue-600 rounded text-white py-2 px-4 font-semibold hover:bg-blue-500"
                     >
-                      Edit
+                      Save Changes
                     </button>
                     <button
                       onClick={() => {

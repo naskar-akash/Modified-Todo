@@ -1,12 +1,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { data } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 import { IoIosAddCircle } from "react-icons/io";
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteOutline } from "react-icons/md";
 import EditTodos from "./EditTodos";
-
 
 const Todos = () => {
   const [todoTitle, setTodoTitle] = useState("");
@@ -14,8 +12,8 @@ const Todos = () => {
   const [todos, setTodos] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [open, setOpen] = useState(false);
-  
+  const [open, setOpen] = useState(false)
+  const [editingTodo, setEditingTodo] = useState("")
 
   useEffect(() => {
     let todoString = localStorage.getItem("todos");
@@ -66,12 +64,25 @@ const Todos = () => {
   };
 
   const handleEdit = (e, id) => {
-    const newTodos = todos.filter((i) => {
-    return i.id === id;
-    });
-    console.log(newTodos)
-    setOpen(true);
+    const newTodo = todos.find((i)=>{
+      return i.id === id;
+    })
+    setEditingTodo(newTodo)
+    setTodoTitle(newTodo.title)
+    setTodoDesc(newTodo.desc)
+    setOpen(true)
   };
+
+  const handleSaveCnge = (updatedTodos) => {
+    const newTodos = todos.map((i)=>{
+      return i.id === updatedTodos.id ? updatedTodos : i
+    })
+    setTodos(newTodos)
+    setTodoTitle("")
+    setTodoDesc("")
+    setEditingTodo("")
+  }
+
 
   const filteredTodos = todos.filter((i) => {
     return (i.desc ?? "").toLowerCase().includes(searchText.toLowerCase());
@@ -234,8 +245,15 @@ const Todos = () => {
             })
           )}
         </div>
+        <EditTodos open={open}
+        setOpen={setOpen}
+        editingTodo={editingTodo}
+        todoTitle={todoTitle}
+        setTodoTitle={setTodoTitle}
+        todoDesc={todoDesc}
+        setTodoDesc={setTodoDesc}
+        onSave={handleSaveCnge}/>
       </div>
-      <EditTodos open={open} setOpen={setOpen} todoTitle={todoTitle} todoDesc={todoDesc}/>
     </div>
   );
 };
