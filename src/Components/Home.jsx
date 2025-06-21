@@ -10,20 +10,26 @@ const Home = () => {
 
 
   return (
-    <div className="bg-blue-50 w-full h-[100vh]">
-      <header className="flex gap-2">
-        <h1 className='text-center'>@To-Do</h1>
-        <button onClick={handleNavigate} className='bg-gray-700 text-white align-middle p-2 w-1/12'>Get Started</button>
+    <div className="flex flex-col gap-10 m-4">
+      <header className="flex flex-col gap-3 bg-blue-200 rounded-lg p-4">
+        <div className="flex justify-center">
+        <div className='text-6xl font-extrabold text-gray-400 text-shadow-lg text-shadow-gray-500 font-serif'>@To-Do</div>
+        </div>
+        <div className="flex justify-center">
+        <button onClick={handleNavigate} className='bg-blue-700 text-white p-2 m-2 rounded font-semibold hover:bg-blue-800 hover:font-bold'>Get Started</button>
+        </div>
       </header>
 
-      <section className="">
-        <h2>Why use this app?</h2>
-        <ul className="">
-          <li>✅ Easy task creation</li>
-          <li>🗂️ Organize with categories</li>
-          <li>📅 Due dates & reminders</li>
-          <li>📊 Progress tracking</li>
+      <section className="flex flex-col gap-3">
+        <h2 className='flex justify-center'>Why use this app?</h2>
+        <div className="flex justify-center">
+        <ul className="flex flex-col gap-2">
+          <li className='text-lg'>✅ Easy task creation</li>
+          <li className='text-lg'>🗂️ Organize with categories</li>
+          <li className='text-lg'>📅 Due dates & reminders</li>
+          <li className='text-lg'>📊 Progress tracking</li>
         </ul>
+        </div>
       </section>
     </div>
   )

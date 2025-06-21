@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 
 const ToFilterTodos = ({todos,setTodos,dateTime,searchText,setSearchText,dateFilter,setDateFilter,setDateFilteredTodos}) => {
   
@@ -12,21 +11,22 @@ const ToFilterTodos = ({todos,setTodos,dateTime,searchText,setSearchText,dateFil
     }
   };
 
-  const handleDateCnge = (e) => {
-    setDateFilter(e.target.value)
-  }
 
   const handleDate = () => {
     const [y,m,d] = dateFilter.split("-")
     const filteredDate = `${d}-${m}-${y}`
-    console.log(filteredDate)
 
     const newTodos = todos.filter(i=>{
         const {date} = dateTime(i.modifiedAt)
         return date === filteredDate;
     })
-    console.log(newTodos)
     setDateFilteredTodos(newTodos)
+  }
+
+  const handleClearFilter = () => {
+    setDateFilteredTodos([])
+    setSearchText("")
+    setDateFilter("")
   }
 
   return (
@@ -59,8 +59,12 @@ const ToFilterTodos = ({todos,setTodos,dateTime,searchText,setSearchText,dateFil
         </div>
 
         <div className="flex">
+          <button onClick={handleClearFilter} className="bg-gray-800 font-semibold rounded text-white p-2 m-1 hover:bg-gray-700 hover:font-bold">Clear filter</button>
+        </div>
+
+        <div className="flex">
           <input
-            onChange={(e)=>{handleDateCnge}}
+            onChange={(e)=>{setSearchText(e.target.value)}}
             className="bg-gray-300 rounded-lg w-full p-2 m-1 mr-2 border-none"
             type="text"
             placeholder="Search here....."
